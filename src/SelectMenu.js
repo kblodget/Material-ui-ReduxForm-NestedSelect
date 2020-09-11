@@ -7,7 +7,7 @@ import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import MuiSelect from "@material-ui/core/Select";
-import React from "react";
+import React, { useState } from "react";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = () => {
@@ -49,9 +49,10 @@ const chapterFormValues = [
   }
 ];
 
-class SelectMenu extends React.Component {
-  /*
-     const [open, setOpen] = useState(false);
+const SelectMenu = (props) => {
+  /*class SelectMenu extends React.Component { */
+
+  const [open, setOpen] = useState(false);
 
   const handleClick = () => {
     setOpen((open) => !open);
@@ -60,50 +61,24 @@ class SelectMenu extends React.Component {
   const handleSubMenuClose = () => {
     setOpen((open) => !open);
   };
-*/
-  state = {
-    open: false
-  };
 
-  setOpen = () => {
-    this.setState({
-      ...this.state,
-      open: !this.state.open
-    });
-  };
-
-  handleClick = () => {
-    this.setOpen();
-  };
-
-  handleSubMenuClose = () => {
-    this.setState({
-      ...this.state,
-      menuOpen: false
-    });
-  };
-
-  renderMenuItems = () => {
-    const { classes } = this.props;
+  const { label, classes } = props;
+  const renderMenuItems = () => {
     return (
       chapterFormValues !== undefined &&
       chapterFormValues.map((option) => {
         if (option.hasOwnProperty("subMenuItems")) {
           return (
             <React.Fragment>
-              <MenuItem onClick={this.handleClick} className={classes.menuItem}>
+              <MenuItem onClick={handleClick} className={classes.menuItem}>
                 {option.caption}
-                {this.state.open ? <IconExpandLess /> : <IconExpandMore />}
+                {open ? <IconExpandLess /> : <IconExpandMore />}
               </MenuItem>
 
-              <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+              <Collapse in={open} timeout="auto" unmountOnExit>
                 <hr />
                 {option.subMenuItems.map((item) => (
-                  <MenuItem
-                    onClick={this.handleClick}
-                    key={item.key}
-                    className={classes.subMenuItem}
-                  >
+                  <MenuItem key={item.key} className={classes.subMenuItem}>
                     {item.caption}
                   </MenuItem>
                 ))}
@@ -124,20 +99,18 @@ class SelectMenu extends React.Component {
     );
   };
 
-  render() {
-    return (
-      <FormControl className={this.props.className}>
-        <InputLabel>{this.props.label}</InputLabel>
-        <MuiSelect
-          input={<Input id={`${this.props.id}-select`} />}
-          value={this.props.value}
-          {...this.props.input}
-          {...this.props.custom}
-        >
-          {this.renderMenuItems()}
-        </MuiSelect>
-      </FormControl>
-    );
-  }
-}
+  return (
+    <FormControl>
+      <InputLabel>{label}</InputLabel>
+      <MuiSelect
+        input={<Input id={`${props.id}-select`} />}
+        value={props.value}
+        {...props.input}
+        {...props.custom}
+      >
+        {renderMenuItems()}
+      </MuiSelect>
+    </FormControl>
+  );
+};
 export default withStyles(styles)(SelectMenu);
