@@ -59,7 +59,7 @@ const SelectMenu = (props) => {
   };
 
   const handleSubMenuClose = () => {
-    setOpen((open) => !open);
+    setOpen((open) => false);
   };
 
   const { label, classes } = props;
@@ -78,7 +78,11 @@ const SelectMenu = (props) => {
               <Collapse in={open} timeout="auto" unmountOnExit>
                 <hr />
                 {option.subMenuItems.map((item) => (
-                  <MenuItem key={item.key} className={classes.subMenuItem}>
+                  <MenuItem key={item.key} 
+                    className={classes.subMenuItem}
+                    onClick={handleSubMenuClose}
+                    value={option.caption === "None" ? "" : item.caption}
+                  >
                     {item.caption}
                   </MenuItem>
                 ))}
