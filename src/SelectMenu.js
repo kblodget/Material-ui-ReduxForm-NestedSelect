@@ -81,7 +81,7 @@ const SelectMenu = (props) => {
                   <MenuItem key={item.key} 
                     className={classes.subMenuItem}
                     onClick={handleSubMenuClose}
-                    value={option.caption === "None" ? "" : item.caption}
+                    value={item.caption === "None" ? "" : item.caption}
                   >
                     {item.caption}
                   </MenuItem>
